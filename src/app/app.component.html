@@ -1,0 +1,69 @@
+<div class="bb-layout bb-layout--horizontal-nav"
+     [ngClass]="{
+    'bb-layout--nav-expanded': layoutService.navigationExpanded$ | async,
+    'bb-layout--high-resolution-view': layoutService.isHighResolutionView$ | async
+    }"
+>
+  <!-- Topbar Area -->
+  <nav class="bb-layout__topbar">
+
+    <!-- Hamburger -->
+    <button
+      class="bb-layout__nav-expand-marker"
+      aria-label="Toggle sidebar"
+      i18n-aria-label="Sidebar Toggler|Button for toggling sidebar state@@bb-layout.sidebar_toggler"
+      [attr.aria-expanded]="layoutService.navigationExpanded$ | async"
+      (click)="layoutService.toggleNav()"
+    >
+      <span class="bb-icon"></span>
+    </button>
+
+    <!-- Logo -->
+    <div class="bb-layout__branding-area">
+      <bb-logo-ui type="emblem" class="mx-4"></bb-logo-ui>
+    </div>
+
+    <!-- Navigation Items-->
+    <ul
+      *ngIf="isAuthenticated"
+      class="bb-layout__horizontal-nav"
+    >
+      <li class="bb-layout__horizontal-nav-item">
+        <a class="bb-layout__horizontal-nav-link"
+           routerLink="/account-transaction"
+           routerLinkActive="bb-layout__horizontal-nav-link--active" #positivePayRouterLink="routerLinkActive"
+           [attr.aria-current]="positivePayRouterLink.isActive ? 'page' : undefined"
+           role="link"
+        >
+          <span class="bb-layout__horizontal-nav-item-description"
+                i18n="Positive pay link@@main.positive-pay.link.text">
+            Account Transaction
+          </span>
+        </a>
+      </li>
+    </ul>
+
+  </nav>
+
+  <!-- Backdrop-->
+  <div
+    class="bb-layout__nav-backdrop"
+    (click)="layoutService.toggleNav()"
+  ></div>
+
+  <!--Main content area-->
+  <div class="bb-layout__main">
+    <div class="bb-layout__sidebar"></div>
+    <div class="bb-layout__content">
+      <div class=" bb-layout__container container-fluid d-block container bb-block--xl">
+        <!--Header Area-->
+        <div class="bb-layout__main-content-header bb-block bb-block--xl" aria-live="polite"></div>
+
+        <!-- Main Content Area -->
+        <div class="bb-layout__main-content-area">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
